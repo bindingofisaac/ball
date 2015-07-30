@@ -22,7 +22,7 @@ var mouse = {
 };
 
 function setup(){
-    canvas = document.getElementById("c"),
+    canvas = document.getElementById("ball"),
     ctx    = canvas.getContext("2d");
     width  = window.innerWidth;
     height = window.innerHeight;
@@ -54,8 +54,8 @@ function mouseDown(e){
 function mouseUp(e){
     if(e.which == 1){
         mouse.isDown = false;
-        ball.vel.y = -1*(ball.pos.y - mouse.y) / 10;
-        ball.vel.x = -1*(ball.pos.x - mouse.x) / 10;
+        ball.vel.y = -1*(ball.pos.y - mouse.y + window.scrollY) / 10;
+        ball.vel.x = -1*(ball.pos.x - mouse.x + window.scrollX) / 10;
         ball.acc.y = 9.81;
     }
 }
@@ -68,9 +68,10 @@ function draw(){
     ctx.fill();
 
     if(mouse.isDown){
+        ctx.strokeStyle = "white";
         ctx.beginPath()
         ctx.moveTo(ball.pos.x, ball.pos.y);
-        ctx.lineTo(mouse.x, mouse.y);
+        ctx.lineTo(mouse.x-window.scrollX, mouse.y-window.scrollY);
         ctx.stroke();
         ctx.closePath();
     }
